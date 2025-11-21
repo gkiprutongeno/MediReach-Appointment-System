@@ -1,6 +1,9 @@
 {
-  "buildCommand": "npm --prefix client install && npm --prefix client run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
   "framework": "vite",
-  "nodejs": "18.x"
+  "nodejs": "18.x",
+  "env": [
+    "VITE_API_URL"
+  ]
 }
