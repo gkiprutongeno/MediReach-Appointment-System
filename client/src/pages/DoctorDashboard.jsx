@@ -60,7 +60,7 @@ export default function DoctorDashboard() {
     <div className="dashboard-page doctor-dashboard">
       <header className="dashboard-header">
         <div>
-          <h1>Welcome, Dr. {user?.firstName}!</h1>
+          <h1>Welcome, {user?.role === 'doctor' ? 'Dr. ' : ''}{user?.firstName}!</h1>
           <p>Manage your schedule and appointments</p>
         </div>
       </header>

@@ -42,8 +42,19 @@ const authLimiter = rateLimit({
 });
 app.use('/api/auth', authLimiter);
 
-// Body parser
-app.use(express.json({ limit: '10kb' }));
+/**
+ * Remove previously added logRawBody middleware because
+ * consuming the request stream causes stream not readable error.
+ * Instead, add raw body logging using express.json's verify option.
+ */
+
+app.use(express.json({
+  limit: '10kb',
+  verify: (req, res, buf) => {
+    req.rawBody = buf && buf.toString();
+    console.log(`Raw request body for ${req.method} ${req.originalUrl}:`, req.rawBody);
+  }
+}));
 
 // Routes
 app.use('/api/auth', authRoutes);
