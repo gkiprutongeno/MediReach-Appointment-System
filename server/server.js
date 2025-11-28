@@ -22,8 +22,21 @@ app.use(requestLogger);
 app.use(helmet());
 app.use(mongoSanitize());
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
+  origin: process.env.NODE_ENV === 'production'
+    ? [
+        process.env.FRONTEND_URL_PROD,
+        // Add any other production domains
+      ]
+    : [
+        process.env.FRONTEND_URL_DEV,
+        'http://localhost:3000',
+        'http://localhost:5173',    // Vite dev server
+        'http://localhost:4173'     // Vite preview
+      ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
 }));
 
 // Rate limiting

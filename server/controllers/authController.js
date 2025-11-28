@@ -196,12 +196,7 @@ exports.login = async (req, res, next) => {
     if (!email || !password) return res.status(400).json({ success: false, error: 'Please provide email and password' });
 
     const user = await User.findOne({ email }).select('+password');
-
-    if (!user || !user.password) {
-      return res.status(401).json({ success: false, error: 'Invalid credentials' });
-    }
-
-    if (!(await user.comparePassword(password))) {
+    if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ success: false, error: 'Invalid credentials' });
     }
 

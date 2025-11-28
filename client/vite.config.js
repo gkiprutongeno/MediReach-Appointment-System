@@ -6,7 +6,11 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': 'http://localhost:5000'
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        rewrite: (path) => path
+      }
     }
   },
   // Ensure esbuild parses JSX in .js files during dependency scanning

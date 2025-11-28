@@ -52,6 +52,12 @@ const userSchema = new mongoose.Schema({
     zipCode: String,
     country: { type: String, default: 'USA' }
   },
+  password: {
+    type: String,
+    required: [true, 'Password is required'],
+    minlength: [8, 'Password must be at least 8 characters'],
+    select: false // Don't include in queries by default
+  },
   profileImage: String,
   isActive: { type: Boolean, default: true },
   lastLogin: Date
