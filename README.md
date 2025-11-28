@@ -1,6 +1,10 @@
-# MediReach - Healthcare Appointment Booking Platform
+# MediReach
 
 A full-stack MERN (MongoDB, Express, React, Node.js) application for patients to book medical appointments with doctors and manage their healthcare schedules.
+
+## 🚀 Deployment URLs
+- **Frontend**: [https://medi-reach-appointment-system.vercel.app](https://medi-reach-appointment-system.vercel.app)
+- **Backend API**: [https://medireach-backend.onrender.com](https://medireach-backend.onrender.com)
 
 ## ✨ Features
 
@@ -203,12 +207,12 @@ PUT    /api/users/profile            # Update user profile
 
 ## 🔐 Environment Variables
 
-### Frontend (.env)
+### Frontend (.env.example)
 ```env
 VITE_API_URL=http://localhost:5000/api    # Backend API base URL
 ```
 
-### Backend (.env)
+### Backend (.env.example)
 ```env
 # Server Configuration
 NODE_ENV=development                      # Environment (development/production)
@@ -223,6 +227,9 @@ JWT_EXPIRE=7d                             # Token expiration
 
 # CORS
 CLIENT_URL=http://localhost:3001          # Frontend URL for CORS
+
+# Sentry (for error tracking)
+SENTRY_DSN=your_sentry_dsn
 ```
 
 **Important**: Never commit .env files. Add to .gitignore.
@@ -480,5 +487,67 @@ For issues, questions, or suggestions:
 - [ ] Admin dashboard with analytics
 
 ---
+
+## 🔍 Monitoring Setup
+
+### Health Check Endpoint
+The backend provides a `/api/health` endpoint that returns server status and uptime:
+```json
+{
+  "status": "ok",
+  "timestamp": "2023-12-01T10:00:00.000Z"
+}
+```
+
+### Uptime Monitoring
+- **Tool**: UptimeRobot (recommended)
+- **URL to Monitor**: `https://medireach-backend.onrender.com/api/health`
+- **Monitoring Frequency**: Every 5 minutes
+- **Alert Channels**: Email notifications
+
+### Error Tracking
+- **Tool**: Sentry
+- **Integration**: Configured in backend with `SENTRY_DSN` environment variable
+- **Features**: Automatic error reporting, performance monitoring, release tracking
+
+### Performance Monitoring
+- **Frontend**: Web Vitals integration for Core Web Vitals (LCP, FID, CLS)
+- **Backend**: Response time logging in middleware
+- **Tools**: Vercel Analytics for frontend, Render metrics for backend
+
+## 📋 Maintenance Plan
+
+### Dependency Updates
+- **Schedule**: Monthly review using `npm outdated`
+- **Process**:
+  1. Run `npm outdated` in both client and server directories
+  2. Update dependencies with `npm update`
+  3. Test thoroughly before committing
+  4. Update package-lock.json
+
+### Database Backup
+- **Tool**: MongoDB Atlas automated backups
+- **Frequency**: Daily snapshots
+- **Retention**: 7 days for point-in-time recovery
+- **Manual Backup**: Use Atlas export feature for critical updates
+
+### Rollback Procedure
+1. **Identify Issue**: Check monitoring dashboards for errors
+2. **Vercel Rollback**:
+   - Go to Vercel dashboard → Deployments
+   - Find previous working deployment
+   - Click "Redeploy" or "Rollback"
+3. **Render Rollback**:
+   - Go to Render dashboard → Service
+   - Select "Manual Deploy" → Choose previous commit
+   - Deploy to production
+
+### Security Patching
+- **Schedule**: Weekly `npm audit` checks
+- **Process**:
+  1. Run `npm audit` in server directory
+  2. Fix critical vulnerabilities with `npm audit fix`
+  3. For manual fixes, update dependencies and test
+  4. Commit security updates separately
 
 **Built with ❤️ for healthcare accessibility**

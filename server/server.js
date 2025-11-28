@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
+const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
@@ -28,6 +29,7 @@ const allowedOrigins = [
 
 // Security middleware
 app.use(helmet());
+app.use(morgan('combined'));
 app.use(mongoSanitize());
 app.use(cors({
   origin: function (origin, callback) {
