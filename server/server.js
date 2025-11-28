@@ -18,21 +18,28 @@ const app = express();
 // 📝 Request/Response logging middleware (add early for debugging)
 app.use(requestLogger);
 
+// ✅ Dynamic CORS configuration
+const allowedOrigins = [
+  'http://localhost:3000', // dev
+  'http://localhost:5173', // Vite dev server
+  'http://localhost:4173', // Vite preview
+  'https://medi-reach-appointment-system.vercel.app' // production
+];
+
 // Security middleware
 app.use(helmet());
 app.use(mongoSanitize());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? [
-        process.env.FRONTEND_URL_PROD,
-        // Add any other production domains
-      ]
-    : [
-        process.env.FRONTEND_URL_DEV,
-        'http://localhost:3000',
-        'http://localhost:5173',    // Vite dev server
-        'http://localhost:4173'     // Vite preview
-      ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
