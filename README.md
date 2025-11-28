@@ -37,8 +37,8 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application for patients to
 - **MongoDB Atlas** - Cloud-hosted MongoDB
 
 ### Deployment
-- **Frontend**: Vercel (recommended)
-- **Backend**: Render (recommended)
+- **Frontend**: Vercel 
+- **Backend**: Render
 
 ---
 
